@@ -17,7 +17,33 @@ type Options struct {
 	ConnectTimeout time.Duration
 }
 
+type LockOptions struct {
+	Expiry     time.Duration
+	RetryDelay time.Duration
+	Tries      int
+}
+
+type LockOption func(options *LockOptions)
+
 type Option func(*Options)
+
+func WithExpiry(expiry time.Duration) LockOption {
+	return func(options *LockOptions) {
+		options.Expiry = expiry
+	}
+}
+
+func WithRetryDelay(retryDelay time.Duration) LockOption {
+	return func(options *LockOptions) {
+		options.RetryDelay = retryDelay
+	}
+}
+
+func WithTries(tries int) LockOption {
+	return func(options *LockOptions) {
+		options.Tries = tries
+	}
+}
 
 func WithHost(host string) Option {
 	return func(options *Options) {
@@ -98,5 +124,13 @@ func (options *Options) init() *Options {
 		ReadTimeout:    time.Second,
 		WriteTimeout:   time.Second,
 		ConnectTimeout: time.Second,
+	}
+}
+
+func (options *LockOptions) init() *LockOptions {
+	return &LockOptions{
+		Expiry:     0,
+		RetryDelay: 0,
+		Tries:      0,
 	}
 }
