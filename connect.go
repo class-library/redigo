@@ -16,6 +16,7 @@ var Redis *RedisServer
 
 var RedisLock *redsync.Redsync
 
+// NewRedis 实例化Redis客户端
 func NewRedis(options ...Option) {
 	data := (&Options{}).init()
 
