@@ -91,9 +91,19 @@ func Incr(key string) (int64, error) {
 	return redis.Int64(Exec("incr", key))
 }
 
+// IncrBy 自增+x
+func IncrBy(key string, val int64) (int64, error) {
+	return redis.Int64(Exec("incrBy", key, val))
+}
+
 // Decr 自减-1
 func Decr(key string) (int64, error) {
 	return redis.Int64(Exec("decr", key))
+}
+
+// DecrBy 自减-x
+func DecrBy(key string, val int64) (int64, error) {
+	return redis.Int64(Exec("decrBy", key, val))
 }
 
 // Exists 检测KEY是否存在
